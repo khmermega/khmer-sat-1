@@ -22,6 +22,7 @@ sensors, a camera, power hardware, and an *authorized* ground link.
 ## Contents
 
 - [What's inside](#whats-inside)
+- [The prototype](#the-prototype)
 - [Screenshots](#screenshots)
 - [Quick start (local, no Docker)](#quick-start-local-no-docker)
 - [Run with Docker Compose](#run-with-docker-compose)
@@ -46,6 +47,19 @@ sensors, a camera, power hardware, and an *authorized* ground link.
 | **Power & ADCS sim** | Energy balance (attitude-dependent solar input, eclipse, battery, mode loads), quaternion attitude, mock IMU and magnetometer. The attitude model is kinematic only; no control-law capability is claimed |
 | **Ground segment** | FastAPI, WebSockets, PostgreSQL/TimescaleDB (SQLite for local dev), MinIO, and an authenticated MQTT broker. The ground segment keeps running through database outages and back-fills the data afterwards |
 | **Watchdog MCU** | Portable C99 watchdog/health state machine (reset, power-cycle on a reset storm, brown-out hold) with host unit tests and an RP2040 port |
+
+## The prototype
+
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="docs/images/prototype-figure-light.png">
+  <img alt="Isometric figure of the KHMER-SAT 1 bench prototype: an open 3U CubeSat frame in a test pod with its board stack, a bench power supply, and a wired link to a ground-station box whose dial counts image chunks in" src="docs/images/prototype-figure.png">
+</picture>
+
+The engineering prototype on the bench. An open 3U frame stands in a test pod, showing its board stack: a power board with two cells, the Raspberry Pi onboard computer, the Pico watchdog and the camera board under the lens. A current-limited bench supply feeds the pod, and a wired Ethernet link (no RF) runs to the ground-station box.
+
+When a capture is commanded, the camera holds in IMAGING for 5 s. The JPEG then goes down the link in 3072-byte chunks, 40 per onboard tick, and the dial counts them in before the ground checks the SHA-256 and sends the ACK. Chunk counts come from JPEG sizes measured on simulated scenes: 11, 26, 42 and 64 for 640×480 up to 2592×1944.
+
+The interactive version, where you hover to pick a resolution and click to capture, is [`docs/figure/khmer-sat-1-prototype.html`](docs/figure/khmer-sat-1-prototype.html). Download it and open it in a browser; rebuild it with `node docs/figure/build.mjs` (add `--light` for the light theme).
 
 ## Screenshots
 

@@ -11,3 +11,4 @@ ground-station/frontend/test-results/
 ground-station/frontend/playwright-report/
 firmware/watchdog-mcu/build/
 .claude/settings.local.json
+docs/figure/shots/
