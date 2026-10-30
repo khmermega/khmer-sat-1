@@ -52,18 +52,19 @@ sensors, a camera, power hardware, and an *authorized* ground link.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/prototype-figure.png">
-  <img alt="Isometric model of KHMER-SAT 1: a 3U CubeSat with blue solar cells on its body, two deployed two-panel solar wings on gold hinges, UHF tape antennas, a GPS patch and sun sensor on top, a gold-mounted camera lens on the end face and a red remove-before-flight tag" src="docs/images/prototype-figure-light.png">
+  <img alt="Concept illustration of KHMER-SAT 1: a silver cylindrical satellite bus with a copper insulation band, gold separation ring, equipment boxes, radiator tiles, a star tracker and an Earth-observation camera; a white dish antenna with a feed on three struts at the front, and two blue solar wings on booms tilted toward the sun" src="docs/images/prototype-figure-light.png">
 </picture>
 
-KHMER-SAT 1 as a 3U Earth-observation CubeSat:
-- **Body:** the standard 3U envelope, 100 × 100 × 340.5 mm, with aluminium rails on its four long edges and solar cells on its faces.
-- **Wings:** two deployed solar wings, each made of two full-length panels on gold hinges.
-- **Top:** a UHF antenna module with four tape antennas, a GPS patch and a sun sensor.
-- **End face:** the camera lens, and the red remove-before-flight tag that is pulled before launch.
+A concept illustration of KHMER-SAT 1 in a conventional satellite style:
+- **Bus:** a silver cylindrical bus with a thruster, radiator fins, a copper insulation band and a gold separation ring.
+- **Equipment:** boxes and radiator tiles, a star tracker, and the Earth-observation camera.
+- **Antenna:** a dish antenna with its feed held on three struts.
+- **Solar wings:** two solar wings on booms, tilted toward the sun.
 
-The wing size, cell layout, antennas and optics are illustrative, because the real parts are still to be selected (see [docs/hardware-bom.md](docs/hardware-bom.md)). The modes the figure steps through (NOMINAL, IMAGING with its 5 s hold, DOWNLINK, SAFE) are the flight software's own.
+> [!NOTE]
+> This picture is a concept illustration, not the engineering design and not to scale. The mission is specified as a **3U CubeSat** (100 × 100 × 340.5 mm, see [docs/mission-requirements.md](docs/mission-requirements.md)), and its antenna, optics and solar arrays are still to be selected ([docs/hardware-bom.md](docs/hardware-bom.md)).
 
-The interactive version is [`docs/figure/khmer-sat-1-prototype.html`](docs/figure/khmer-sat-1-prototype.html): click it to step through the modes. GitHub can't run it, so download it and open it in a browser. Rebuild it with `node docs/figure/build.mjs` (add `--dark` for the dark theme).
+The interactive version is [`docs/figure/khmer-sat-1-prototype.html`](docs/figure/khmer-sat-1-prototype.html). Click it to step through the flight software's modes: the camera lights in IMAGING and the dish feed in DOWNLINK. GitHub can't run it, so download it and open it in a browser. Rebuild it with `node docs/figure/build.mjs` (add `--dark` for the dark theme).
 
 ## Screenshots
 
