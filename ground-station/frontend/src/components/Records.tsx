@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { api, type CommandItem, type EventItem, type ImageItem, type Severity } from "../api";
 import { bytes, fmt, SEVERITY_STYLE, STATUS_STYLE, utcTime } from "../format";
 import { Button, Chip, Panel } from "./Panel";
@@ -38,7 +39,8 @@ export function ImageGallery({ images }: { images: ImageItem[] }) {
           })}
         </div>
       )}
-      {open && <ImageModal image={open} onClose={() => setOpen(null)} />}
+      {/* Portal: the panel's backdrop-filter would otherwise trap position:fixed inside it. */}
+      {open && createPortal(<ImageModal image={open} onClose={() => setOpen(null)} />, document.body)}
     </Panel>
   );
 }

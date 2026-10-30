@@ -6,6 +6,10 @@ Flight software, spacecraft simulator, ground segment, and a web mission control
 for a 3U Earth-observation CubeSat. It is built so it can later connect to real
 sensors, a camera, power hardware, and an *authorized* ground link.
 
+![KHMER-SAT 1 mission control dashboard](docs/images/dashboard-overview.jpg)
+
+<p align="center"><sub>Mission control in SIMULATION mode: live housekeeping, SGP4 ground track with the Phnom Penh visibility mask, and the 3D attitude view. All data shown is simulated.</sub></p>
+
 > [!IMPORTANT]
 > **This is not flight software and nothing here is flight qualified.**
 > All orbital data comes from a **synthetic** demonstration orbit (it is not real
@@ -18,6 +22,7 @@ sensors, a camera, power hardware, and an *authorized* ground link.
 ## Contents
 
 - [What's inside](#whats-inside)
+- [Screenshots](#screenshots)
 - [Quick start (local, no Docker)](#quick-start-local-no-docker)
 - [Run with Docker Compose](#run-with-docker-compose)
 - [Using mission control](#using-mission-control)
@@ -41,6 +46,24 @@ sensors, a camera, power hardware, and an *authorized* ground link.
 | **Power & ADCS sim** | Energy balance (attitude-dependent solar input, eclipse, battery, mode loads), quaternion attitude, mock IMU and magnetometer. The attitude model is kinematic only; no control-law capability is claimed |
 | **Ground segment** | FastAPI, WebSockets, PostgreSQL/TimescaleDB (SQLite for local dev), MinIO, and an authenticated MQTT broker. The ground segment keeps running through database outages and back-fills the data afterwards |
 | **Watchdog MCU** | Portable C99 watchdog/health state machine (reset, power-cycle on a reset storm, brown-out hold) with host unit tests and an RP2040 port |
+
+## Screenshots
+
+| Orbit · ground track | Attitude · 3D |
+|---|---|
+| ![Ground track](docs/images/panel-ground-track.jpg) | ![Attitude](docs/images/panel-attitude.jpg) |
+| **Telemetry trends** | **Ground link & pass prediction** |
+| ![Telemetry trends](docs/images/panel-charts.jpg) | ![Ground link](docs/images/panel-link.jpg) |
+| **Image gallery** (SHA-256 verified, provenance-tagged) | **Events & alarms** |
+| ![Image gallery](docs/images/panel-gallery.jpg) | ![Events](docs/images/panel-events.jpg) |
+
+**Capture metadata.** Every image carries its provenance, UTC timestamps, position, checksum and downlink details. Synthetic scenes are stamped `SIMULATED` in the pixels themselves.
+
+![Capture metadata](docs/images/image-metadata.jpg)
+
+**Command history and audit trail.** Every telecommand is listed with its operator, sequence number and onboard acknowledgement.
+
+![Audit trail](docs/images/panel-audit.jpg)
 
 ## Quick start (local, no Docker)
 
