@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+.git
+.venv
+data
+**/__pycache__
+**/node_modules
+.pytest_cache
+.ruff_cache
+ground-station/frontend
+firmware/watchdog-mcu/build
+tests
+docs
+cad

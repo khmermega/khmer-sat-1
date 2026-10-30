@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "backend",
+      "runtimeExecutable": "uv",
+      "runtimeArgs": ["run", "python", "-m", "uvicorn", "app.main:app", "--app-dir", "ground-station/backend", "--host", "127.0.0.1", "--port", "8000"],
+      "port": 8000
+    },
+    {
+      "name": "dashboard",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "ground-station/frontend", "run", "dev"],
+      "port": 5173
+    }
+  ]
+}

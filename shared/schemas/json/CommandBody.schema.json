@@ -1,0 +1,50 @@
+{
+  "$defs": {
+    "CommandType": {
+      "enum": [
+        "PING",
+        "SET_MODE",
+        "CAPTURE_IMAGE",
+        "SCHEDULE_CAPTURE",
+        "SET_CAMERA_CONFIG",
+        "START_DOWNLINK",
+        "SET_TELEMETRY_RATE",
+        "CLEAR_FAULT",
+        "REBOOT",
+        "DELETE_ALL_IMAGES",
+        "IMAGE_ACK"
+      ],
+      "title": "CommandType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Body of an uplinked COMMAND packet.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "command_id": {
+      "title": "Command Id",
+      "type": "string"
+    },
+    "type": {
+      "$ref": "#/$defs/CommandType"
+    },
+    "args": {
+      "additionalProperties": true,
+      "title": "Args",
+      "type": "object"
+    }
+  },
+  "required": [
+    "command_id",
+    "type"
+  ],
+  "title": "CommandBody",
+  "type": "object",
+  "$id": "https://khmer-sat-1.invalid/schemas/1.0.0/CommandBody.json"
+}

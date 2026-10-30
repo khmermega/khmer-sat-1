@@ -1,0 +1,336 @@
+{
+  "$defs": {
+    "AttitudeState": {
+      "additionalProperties": false,
+      "properties": {
+        "q": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "title": "Q",
+          "type": "array"
+        },
+        "rate_dps": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Rate Dps",
+          "type": "array"
+        },
+        "mag_ut": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "title": "Mag Ut",
+          "type": "array"
+        }
+      },
+      "required": [
+        "q",
+        "rate_dps",
+        "mag_ut"
+      ],
+      "title": "AttitudeState",
+      "type": "object"
+    },
+    "GnssState": {
+      "additionalProperties": false,
+      "properties": {
+        "fix": {
+          "title": "Fix",
+          "type": "boolean"
+        },
+        "sats": {
+          "title": "Sats",
+          "type": "integer"
+        },
+        "lat_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lat Deg"
+        },
+        "lon_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lon Deg"
+        },
+        "alt_km": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Alt Km"
+        }
+      },
+      "required": [
+        "fix",
+        "sats"
+      ],
+      "title": "GnssState",
+      "type": "object"
+    },
+    "Mode": {
+      "enum": [
+        "BOOT",
+        "NOMINAL",
+        "IMAGING",
+        "DOWNLINK",
+        "SAFE",
+        "FAULT"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "OrbitState": {
+      "additionalProperties": false,
+      "properties": {
+        "lat_deg": {
+          "title": "Lat Deg",
+          "type": "number"
+        },
+        "lon_deg": {
+          "title": "Lon Deg",
+          "type": "number"
+        },
+        "alt_km": {
+          "title": "Alt Km",
+          "type": "number"
+        },
+        "speed_km_s": {
+          "title": "Speed Km S",
+          "type": "number"
+        },
+        "sunlit": {
+          "title": "Sunlit",
+          "type": "boolean"
+        },
+        "gs_elevation_deg": {
+          "title": "Gs Elevation Deg",
+          "type": "number"
+        },
+        "gs_visible": {
+          "title": "Gs Visible",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "lat_deg",
+        "lon_deg",
+        "alt_km",
+        "speed_km_s",
+        "sunlit",
+        "gs_elevation_deg",
+        "gs_visible"
+      ],
+      "title": "OrbitState",
+      "type": "object"
+    },
+    "PowerState": {
+      "additionalProperties": false,
+      "properties": {
+        "soc_pct": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Soc Pct",
+          "type": "number"
+        },
+        "battery_v": {
+          "title": "Battery V",
+          "type": "number"
+        },
+        "battery_a": {
+          "title": "Battery A",
+          "type": "number"
+        },
+        "solar_w": {
+          "title": "Solar W",
+          "type": "number"
+        },
+        "load_w": {
+          "title": "Load W",
+          "type": "number"
+        }
+      },
+      "required": [
+        "soc_pct",
+        "battery_v",
+        "battery_a",
+        "solar_w",
+        "load_w"
+      ],
+      "title": "PowerState",
+      "type": "object"
+    },
+    "StorageState": {
+      "additionalProperties": false,
+      "properties": {
+        "used_bytes": {
+          "title": "Used Bytes",
+          "type": "integer"
+        },
+        "capacity_bytes": {
+          "title": "Capacity Bytes",
+          "type": "integer"
+        },
+        "images_stored": {
+          "title": "Images Stored",
+          "type": "integer"
+        },
+        "downlink_queue": {
+          "title": "Downlink Queue",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "used_bytes",
+        "capacity_bytes",
+        "images_stored",
+        "downlink_queue"
+      ],
+      "title": "StorageState",
+      "type": "object"
+    },
+    "ThermalState": {
+      "additionalProperties": false,
+      "properties": {
+        "cpu_c": {
+          "title": "Cpu C",
+          "type": "number"
+        },
+        "payload_c": {
+          "title": "Payload C",
+          "type": "number"
+        },
+        "battery_c": {
+          "title": "Battery C",
+          "type": "number"
+        },
+        "panel_c": {
+          "title": "Panel C",
+          "type": "number"
+        }
+      },
+      "required": [
+        "cpu_c",
+        "payload_c",
+        "battery_c",
+        "panel_c"
+      ],
+      "title": "ThermalState",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Periodic HOUSEKEEPING payload.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "title": "Utc",
+      "type": "string"
+    },
+    "mode": {
+      "$ref": "#/$defs/Mode"
+    },
+    "uptime_s": {
+      "title": "Uptime S",
+      "type": "number"
+    },
+    "boot_count": {
+      "title": "Boot Count",
+      "type": "integer"
+    },
+    "cpu_load_pct": {
+      "title": "Cpu Load Pct",
+      "type": "number"
+    },
+    "orbit": {
+      "$ref": "#/$defs/OrbitState"
+    },
+    "power": {
+      "$ref": "#/$defs/PowerState"
+    },
+    "thermal": {
+      "$ref": "#/$defs/ThermalState"
+    },
+    "attitude": {
+      "$ref": "#/$defs/AttitudeState"
+    },
+    "gnss": {
+      "$ref": "#/$defs/GnssState"
+    },
+    "storage": {
+      "$ref": "#/$defs/StorageState"
+    },
+    "faults": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Faults",
+      "type": "array"
+    },
+    "last_cmd_seq": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Last Cmd Seq"
+    },
+    "simulated": {
+      "default": true,
+      "title": "Simulated",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "utc",
+    "mode",
+    "uptime_s",
+    "boot_count",
+    "cpu_load_pct",
+    "orbit",
+    "power",
+    "thermal",
+    "attitude",
+    "gnss",
+    "storage"
+  ],
+  "title": "Housekeeping",
+  "type": "object",
+  "$id": "https://khmer-sat-1.invalid/schemas/1.0.0/Housekeeping.json"
+}

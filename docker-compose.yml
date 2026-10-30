@@ -1,0 +1,117 @@
+# KHMER-SAT 1 ground segment (SIMULATION by default).
+#   python scripts/init_env.py      # once: creates .env with random secrets
+#   docker compose up --build
+#   open http://localhost:8080
+# All ports bind to 127.0.0.1 only. Optional TimescaleDB:
+#   POSTGRES_IMAGE=timescale/timescaledb:latest-pg16 docker compose up --build
+
+name: khmer-sat-1
+
+x-required: &required
+  OPERATOR_TOKEN: ${OPERATOR_TOKEN:?run python scripts/init_env.py first}
+  ADMIN_TOKEN: ${ADMIN_TOKEN:?run python scripts/init_env.py first}
+  COMMAND_HMAC_KEY: ${COMMAND_HMAC_KEY:?run python scripts/init_env.py first}
+
+services:
+  postgres:
+    image: ${POSTGRES_IMAGE:-postgres:16-alpine}
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-khmersat}
+      POSTGRES_DB: ${POSTGRES_DB:-khmersat}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?run python scripts/init_env.py first}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-khmersat}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?run python scripts/init_env.py first}
+    volumes:
+      - miniodata:/data
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    environment:
+      MQTT_USERNAME: ${MQTT_USERNAME:-khmersat}
+      MQTT_PASSWORD: ${MQTT_PASSWORD:?run python scripts/init_env.py first}
+    # Generate the password file from env at start - no credentials in the repo.
+    command: >
+      sh -c 'mosquitto_passwd -b -c /mosquitto/data/passwd "$$MQTT_USERNAME" "$$MQTT_PASSWORD" &&
+             chown mosquitto:mosquitto /mosquitto/data/passwd && chmod 0700 /mosquitto/data/passwd &&
+             exec mosquitto -c /mosquitto/config/mosquitto.conf'
+    volumes:
+      - ./scripts/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mqttdata:/mosquitto/data
+    ports:
+      - "127.0.0.1:1883:1883"
+
+  backend:
+    build:
+      context: .
+      dockerfile: ground-station/backend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres: { condition: service_healthy }
+      minio: { condition: service_healthy }
+      mosquitto: { condition: service_started }
+    environment:
+      <<: *required
+      GS_MODE: ${GS_MODE:-SIMULATION}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-khmersat}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-khmersat}
+      OBJECT_STORE: s3
+      S3_ENDPOINT: http://minio:9000
+      S3_BUCKET: ${S3_BUCKET:-khmersat-images}
+      S3_ACCESS_KEY: ${MINIO_ROOT_USER:-khmersat}
+      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      MQTT_ENABLED: "true"
+      MQTT_HOST: mosquitto
+      MQTT_USERNAME: ${MQTT_USERNAME:-khmersat}
+      MQTT_PASSWORD: ${MQTT_PASSWORD}
+      SIM_TIME_SCALE: ${SIM_TIME_SCALE:-1}
+      SIM_LINK_MODE: ${SIM_LINK_MODE:-bench}
+      SIM_PASS_OFFSET_MIN: ${SIM_PASS_OFFSET_MIN:-10}
+      ONBOARD_DATA_DIR: /data/onboard-sim
+      GS_NAME: ${GS_NAME:-Phnom Penh (simulated)}
+      GS_LAT: ${GS_LAT:-11.5564}
+      GS_LON: ${GS_LON:-104.9282}
+      GS_MIN_EL: ${GS_MIN_EL:-10}
+      CORS_ORIGINS: http://localhost:8080
+    volumes:
+      - onboarddata:/data
+    ports:
+      - "127.0.0.1:8000:8000"
+
+  frontend:
+    build:
+      context: ground-station/frontend
+    restart: unless-stopped
+    depends_on:
+      backend: { condition: service_healthy }
+    ports:
+      - "127.0.0.1:8080:8080"
+
+volumes:
+  pgdata:
+  miniodata:
+  mqttdata:
+  onboarddata:

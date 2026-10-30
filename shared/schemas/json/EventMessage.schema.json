@@ -1,0 +1,52 @@
+{
+  "$defs": {
+    "Severity": {
+      "enum": [
+        "INFO",
+        "WARNING",
+        "CRITICAL"
+      ],
+      "title": "Severity",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "title": "Utc",
+      "type": "string"
+    },
+    "severity": {
+      "$ref": "#/$defs/Severity"
+    },
+    "source": {
+      "title": "Source",
+      "type": "string"
+    },
+    "code": {
+      "title": "Code",
+      "type": "string"
+    },
+    "message": {
+      "title": "Message",
+      "type": "string"
+    }
+  },
+  "required": [
+    "utc",
+    "severity",
+    "source",
+    "code",
+    "message"
+  ],
+  "title": "EventMessage",
+  "type": "object",
+  "$id": "https://khmer-sat-1.invalid/schemas/1.0.0/EventMessage.json"
+}

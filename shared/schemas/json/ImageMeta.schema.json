@@ -1,0 +1,143 @@
+{
+  "$defs": {
+    "ImageSource": {
+      "description": "Provenance of an image. Ground photography must NEVER be labelled orbital.",
+      "enum": [
+        "SIMULATED_ORBITAL",
+        "GROUND_TEST_HARDWARE",
+        "MOCK_SAMPLE"
+      ],
+      "title": "ImageSource",
+      "type": "string"
+    },
+    "Mode": {
+      "enum": [
+        "BOOT",
+        "NOMINAL",
+        "IMAGING",
+        "DOWNLINK",
+        "SAFE",
+        "FAULT"
+      ],
+      "title": "Mode",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "IMAGE_META payload - metadata accompanying every image.",
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "image_id": {
+      "title": "Image Id",
+      "type": "string"
+    },
+    "captured_utc": {
+      "format": "date-time",
+      "title": "Captured Utc",
+      "type": "string"
+    },
+    "source": {
+      "$ref": "#/$defs/ImageSource"
+    },
+    "camera": {
+      "title": "Camera",
+      "type": "string"
+    },
+    "width": {
+      "title": "Width",
+      "type": "integer"
+    },
+    "height": {
+      "title": "Height",
+      "type": "integer"
+    },
+    "jpeg_quality": {
+      "title": "Jpeg Quality",
+      "type": "integer"
+    },
+    "size_bytes": {
+      "title": "Size Bytes",
+      "type": "integer"
+    },
+    "sha256": {
+      "title": "Sha256",
+      "type": "string"
+    },
+    "chunks": {
+      "title": "Chunks",
+      "type": "integer"
+    },
+    "lat_deg": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Lat Deg"
+    },
+    "lon_deg": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Lon Deg"
+    },
+    "alt_km": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Alt Km"
+    },
+    "mode": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Mode"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "note": {
+      "default": "",
+      "title": "Note",
+      "type": "string"
+    }
+  },
+  "required": [
+    "image_id",
+    "captured_utc",
+    "source",
+    "camera",
+    "width",
+    "height",
+    "jpeg_quality",
+    "size_bytes",
+    "sha256",
+    "chunks"
+  ],
+  "title": "ImageMeta",
+  "type": "object",
+  "$id": "https://khmer-sat-1.invalid/schemas/1.0.0/ImageMeta.json"
+}

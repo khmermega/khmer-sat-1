@@ -1,0 +1,53 @@
+{
+  "$defs": {
+    "AckStatus": {
+      "enum": [
+        "ACCEPTED",
+        "REJECTED",
+        "COMPLETED",
+        "FAILED"
+      ],
+      "title": "AckStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0",
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "command_id": {
+      "title": "Command Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/AckStatus"
+    },
+    "reason": {
+      "default": "",
+      "title": "Reason",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "title": "Utc",
+      "type": "string"
+    },
+    "detail": {
+      "additionalProperties": true,
+      "title": "Detail",
+      "type": "object"
+    }
+  },
+  "required": [
+    "command_id",
+    "status",
+    "utc"
+  ],
+  "title": "CommandAck",
+  "type": "object",
+  "$id": "https://khmer-sat-1.invalid/schemas/1.0.0/CommandAck.json"
+}

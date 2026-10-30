@@ -1,0 +1,63 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python - lint, unit & integration tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          version: "0.5.11"
+      - run: uv sync --python 3.12
+      - run: uv run ruff check .
+      - run: uv run pytest -p no:cacheprovider
+
+  firmware:
+    name: Watchdog MCU - host unit tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: make -C firmware/watchdog-mcu test
+
+  frontend:
+    name: Dashboard - typecheck, build & e2e
+    runs-on: ubuntu-24.04
+    needs: python
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          version: "0.5.11"
+      - run: uv sync --python 3.12
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ground-station/frontend/package-lock.json
+      - working-directory: ground-station/frontend
+        run: npm ci && npm run build
+      - working-directory: ground-station/frontend
+        run: npx playwright install --with-deps chromium && npx playwright test --reporter=line
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: ground-station/frontend/test-results
+
+  compose:
+    name: Docker Compose - config & image build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/init_env.py
+      - run: docker compose config --quiet
+      - run: docker compose build
