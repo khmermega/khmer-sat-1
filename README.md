@@ -51,15 +51,19 @@ sensors, a camera, power hardware, and an *authorized* ground link.
 ## The prototype
 
 <picture>
-  <source media="(prefers-color-scheme: light)" srcset="docs/images/prototype-figure-light.png">
-  <img alt="Isometric figure of the KHMER-SAT 1 bench prototype: a 3U CubeSat with blue solar cells, deployed solar wings, UHF antennas and a gold-ringed camera lens, standing in a test pod; a blue Ethernet cable carries amber image chunks to a ground-station box whose dial counts them in" src="docs/images/prototype-figure.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/prototype-figure.png">
+  <img alt="Isometric model of KHMER-SAT 1: a 3U CubeSat with blue solar cells on its body, two deployed two-panel solar wings on gold hinges, UHF tape antennas, a GPS patch and sun sensor on top, a gold-mounted camera lens on the end face and a red remove-before-flight tag" src="docs/images/prototype-figure-light.png">
 </picture>
 
-The engineering prototype on the bench. On the outside it looks like the flight article: a 3U CubeSat with solar cells on every face, two deployed solar wings, UHF antenna whiskers, a camera lens on the top panel and a red remove-before-flight tag. It stands in a test pod fed by a current-limited bench supply (red and black leads), and a blue Ethernet cable runs from its debug port to the ground-station box. There is no RF.
+KHMER-SAT 1 as a 3U Earth-observation CubeSat:
+- **Body:** the standard 3U envelope, 100 × 100 × 340.5 mm, with aluminium rails on its four long edges and solar cells on its faces.
+- **Wings:** two deployed solar wings, each made of two full-length panels on gold hinges.
+- **Top:** a UHF antenna module with four tape antennas, a GPS patch and a sun sensor.
+- **End face:** the camera lens, and the red remove-before-flight tag that is pulled before launch.
 
-When a capture is commanded, the lens lights for the 5 s imaging hold. The JPEG then travels down the cable as amber 3072-byte chunks, 40 per onboard tick, and the dial counts them in before the ground checks the SHA-256 and sends the ACK. Chunk counts come from JPEG sizes measured on simulated scenes: 11, 26, 42 and 64 for 640×480 up to 2592×1944. The green LED by the port is the watchdog heartbeat.
+The wing size, cell layout, antennas and optics are illustrative, because the real parts are still to be selected (see [docs/hardware-bom.md](docs/hardware-bom.md)). The modes the figure steps through (NOMINAL, IMAGING with its 5 s hold, DOWNLINK, SAFE) are the flight software's own.
 
-The interactive version, where you hover to pick a resolution and click to capture, is [`docs/figure/khmer-sat-1-prototype.html`](docs/figure/khmer-sat-1-prototype.html). Download it and open it in a browser; rebuild it with `node docs/figure/build.mjs` (add `--light` for the light theme).
+The interactive version is [`docs/figure/khmer-sat-1-prototype.html`](docs/figure/khmer-sat-1-prototype.html): click it to step through the modes. GitHub can't run it, so download it and open it in a browser. Rebuild it with `node docs/figure/build.mjs` (add `--dark` for the dark theme).
 
 ## Screenshots
 
