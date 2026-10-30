@@ -50,21 +50,31 @@ sensors, a camera, power hardware, and an *authorized* ground link.
 
 ## The prototype
 
+### The 3U design
+
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/images/prototype-figure.png">
-  <img alt="Concept illustration of KHMER-SAT 1: a silver cylindrical satellite bus with a copper insulation band, gold separation ring, equipment boxes, radiator tiles, a star tracker and an Earth-observation camera; a white dish antenna with a feed on three struts at the front, and two blue solar wings on booms tilted toward the sun" src="docs/images/prototype-figure-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/3u-figure.png">
+  <img alt="KHMER-SAT 1 as designed: a 3U CubeSat with silver rails, light-blue solar cells and gold insulation strips at the unit joints, two deployable two-panel solar wings on gold hinge pins, a copper antenna deck with GPS patch, sun sensor, star tracker and four UHF tape antennas, and the Earth-observation camera with a gold mount on the end face beside a red remove-before-flight tag" src="docs/images/3u-figure-light.png">
 </picture>
 
-A concept illustration of KHMER-SAT 1 in a conventional satellite style:
-- **Bus:** a silver cylindrical bus with a thruster, radiator fins, a copper insulation band and a gold separation ring.
-- **Equipment:** boxes and radiator tiles, a star tracker, and the Earth-observation camera.
-- **Antenna:** a dish antenna with its feed held on three struts.
-- **Solar wings:** two solar wings on booms, tilted toward the sun.
+KHMER-SAT 1 as specified: a **3U CubeSat**, 100 × 100 × 340.5 mm.
+- **Body:** silver rails on the four long edges, solar cells on the faces, and gold insulation strips at the unit joints.
+- **Wings:** two deployable wings, each of two panels on gold hinge pins, angled 8° toward the sun.
+- **Top deck:** a UHF antenna module with four tape antennas, a GPS patch, a sun sensor and a small star tracker.
+- **End face:** the Earth-observation camera, the rail-end deployment switches and the red remove-before-flight tag.
 
-> [!NOTE]
-> This picture is a concept illustration, not the engineering design and not to scale. The mission is specified as a **3U CubeSat** (100 × 100 × 340.5 mm, see [docs/mission-requirements.md](docs/mission-requirements.md)), and its antenna, optics and solar arrays are still to be selected ([docs/hardware-bom.md](docs/hardware-bom.md)).
+The wing size, cell layout, antennas and optics are illustrative, because the real parts are still to be selected ([docs/hardware-bom.md](docs/hardware-bom.md)). Interactive version: [`docs/figure/khmer-sat-1-3u.html`](docs/figure/khmer-sat-1-3u.html), built with `node docs/figure/build-3u.mjs`.
 
-The interactive version is [`docs/figure/khmer-sat-1-prototype.html`](docs/figure/khmer-sat-1-prototype.html). Click it to step through the flight software's modes: the camera lights in IMAGING and the dish feed in DOWNLINK. GitHub can't run it, so download it and open it in a browser. Rebuild it with `node docs/figure/build.mjs` (add `--dark` for the dark theme).
+### Concept illustration
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/prototype-figure.png">
+  <img alt="Concept illustration of KHMER-SAT 1: a silver cylindrical satellite bus with insulation bands, equipment, a star tracker and an Earth-observation camera; a white dish antenna on struts and two blue solar wings on booms" src="docs/images/prototype-figure-light.png">
+</picture>
+
+The same mission drawn in a conventional satellite style: a cylindrical bus, a dish antenna and two solar wings on booms. It is a concept illustration only, not the engineering design and not to scale. Interactive version: [`docs/figure/khmer-sat-1-prototype.html`](docs/figure/khmer-sat-1-prototype.html), built with `node docs/figure/build.mjs`.
+
+Both interactive pages step through the flight software's modes when clicked: NOMINAL, IMAGING with its 5 s hold, DOWNLINK and SAFE. GitHub can't run them, so download them and open them in a browser. Add `--dark` to either build command for the dark theme.
 
 ## Screenshots
 
